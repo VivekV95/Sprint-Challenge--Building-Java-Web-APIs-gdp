@@ -1,9 +1,11 @@
 package com.vivekvishwanath.sprint12.controller
 
 import com.vivekvishwanath.sprint12.Sprint12Application
+import com.vivekvishwanath.sprint12.repository.CheckCountry
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.text.SimpleDateFormat
@@ -38,4 +40,12 @@ class CountryController {
                     Sprint12Application.myCountryList.countryList.size/2),
                     HttpStatus.OK)
         }
+
+    //localhost:8081/countries/country/{id}
+    @GetMapping(value = ["/country/{id}"], produces = ["application/json"])
+    fun getCountryById(@PathVariable id: Long): ResponseEntity<*> {
+        val rtnGdp = Sprint12Application.myCountryList.findCountry(
+                CheckCountry{ it.id == id })
+        return ResponseEntity(rtnGdp, HttpStatus.OK)
+    }
 }
