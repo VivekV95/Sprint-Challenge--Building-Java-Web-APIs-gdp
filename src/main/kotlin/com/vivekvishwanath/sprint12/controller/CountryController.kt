@@ -1,6 +1,7 @@
 package com.vivekvishwanath.sprint12.controller
 
 import com.vivekvishwanath.sprint12.Sprint12Application
+import com.vivekvishwanath.sprint12.model.Country
 import com.vivekvishwanath.sprint12.repository.CheckCountry
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -48,4 +49,15 @@ class CountryController {
                 CheckCountry{ it.id == id })
         return ResponseEntity(rtnGdp, HttpStatus.OK)
     }
+
+    //localhost:8081/countries/total
+    val totalGdp: ResponseEntity<*>
+        @GetMapping(value = ["/total"], produces = ["application/json"])
+        get() {
+            var sum: Long? = 0
+            for (country in Sprint12Application.myCountryList.countryList) {
+                sum = country.gdp?.toLong()?.let { sum?.plus(it) }
+            }
+            return ResponseEntity(Country("Total", sum.toString(), 0), HttpStatus.OK)
+        }
 }
