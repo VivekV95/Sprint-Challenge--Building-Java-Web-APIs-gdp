@@ -71,4 +71,15 @@ class CountryController {
                 Sprint12Application.myCountryList.countryList.sortedByDescending { it.gdp?.toLong() })
         return mav
     }
+
+    //localhost:8081/countries/names/{s}/{e}
+    @GetMapping(value = ["/names/{s}/{e}"], produces = ["application/json"])
+    fun getCountryTableByNameRange(@PathVariable s: Char, @PathVariable e: Char): ModelAndView {
+        val mav = ModelAndView()
+        mav.viewName = "countries"
+        mav.addObject("countryList",
+                Sprint12Application.myCountryList.countryList.sortedBy { it.name }.
+                        filter { it.name?.get(0)?.toLowerCase() in s..e })
+        return mav
+    }
 }
