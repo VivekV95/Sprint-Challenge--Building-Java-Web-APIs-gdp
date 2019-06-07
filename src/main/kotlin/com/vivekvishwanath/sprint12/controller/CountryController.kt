@@ -100,8 +100,8 @@ class CountryController {
                 " on ${SimpleDateFormat("dd MMM yyyy HH:mm:ss:SSS Z").format(Date())}" }
         val mav = ModelAndView()
         mav.viewName = "countries"
-        val tmpCountryList = Sprint12Application.myCountryList.countryList.sortedBy { it.name }.
-                filter { it.name?.get(0)?.toLowerCase() in s..e }
+        val tmpCountryList = Sprint12Application.myCountryList.
+                findCountries(CheckCountry{it.name?.get(0)?.toLowerCase() in s..e}).sortedBy { it.name }
         if (tmpCountryList.isEmpty()) {
             throw ResourceNotFoundException("No countries found between $s and $e")
         }
@@ -117,10 +117,10 @@ class CountryController {
                 " on ${SimpleDateFormat("dd MMM yyyy HH:mm:ss:SSS Z").format(Date())}" }
         val mav = ModelAndView()
         mav.viewName = "countries"
-        val tmpCountryList =  Sprint12Application.myCountryList.countryList.sortedBy { it.name }.
-                filter { it.gdp?.toLong() in s..e }
+        val tmpCountryList = Sprint12Application.myCountryList.
+                findCountries(CheckCountry{it.gdp?.toLong() in s..e }).sortedBy { it.name }
         if (tmpCountryList.isEmpty()) {
-            throw ResourceNotFoundException("Countries with gdps between $s and $e not found")
+            throw ResourceNotFoundException("Countries with GDPs between $s and $e not found")
         }
         mav.addObject("countryList", tmpCountryList)
         return mav
