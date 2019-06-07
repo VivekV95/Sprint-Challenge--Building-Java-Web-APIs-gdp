@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.servlet.ModelAndView
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -60,4 +61,14 @@ class CountryController {
             }
             return ResponseEntity(Country("Total", sum.toString(), 0), HttpStatus.OK)
         }
+
+    //localhost:8081/countries/economy/table
+    @GetMapping(value = ["/economy/table"], produces = ["application/json"])
+    fun getCountryTable(): ModelAndView {
+        val mav = ModelAndView()
+        mav.viewName = "countries"
+        mav.addObject("countryList",
+                Sprint12Application.myCountryList.countryList.sortedByDescending { it.gdp?.toLong() })
+        return mav
+    }
 }
