@@ -28,5 +28,14 @@ class CountryController {
             return ResponseEntity(Sprint12Application.myCountryList.
                     countryList.sortedBy { it.name }, HttpStatus.OK)
         }
-    
+
+    //localhost:8081/countries/country/stats/median
+    val medianGdp: ResponseEntity<*>
+        @GetMapping(value = ["country/stats/median"], produces = ["application/json"])
+        get() {
+            return ResponseEntity(Sprint12Application.
+                    myCountryList.countryList.sortedBy { it.gdp?.toLong() }.get(
+                    Sprint12Application.myCountryList.countryList.size/2),
+                    HttpStatus.OK)
+        }
 }
