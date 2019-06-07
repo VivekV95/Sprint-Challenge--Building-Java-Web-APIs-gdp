@@ -13,6 +13,7 @@ import java.util.*
 @RequestMapping("/countries")
 class CountryController {
 
+    //localhost:8081/countries/economy
     val allCountriesByGDP: ResponseEntity<*>
         @GetMapping(value = ["/economy"], produces = ["application/json"])
         get() {
@@ -20,4 +21,12 @@ class CountryController {
                     sortedByDescending { it.gdp?.toLong() }, HttpStatus.OK)
         }
 
+    //localhost:8081/countries/names
+    val allCountriesByName: ResponseEntity<*>
+        @GetMapping(value = ["/names"], produces = ["application/json"])
+        get() {
+            return ResponseEntity(Sprint12Application.myCountryList.
+                    countryList.sortedBy { it.name }, HttpStatus.OK)
+        }
+    
 }
