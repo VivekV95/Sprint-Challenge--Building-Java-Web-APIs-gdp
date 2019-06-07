@@ -1,5 +1,6 @@
 package com.vivekvishwanath.sprint12.model
 
+import com.vivekvishwanath.sprint12.exception.ValidationError
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
